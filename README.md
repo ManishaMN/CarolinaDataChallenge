@@ -22,4 +22,9 @@ We found that tracks with high revenue tend to be longer, more upbeat, lower ene
 Audio Features from 2000 to 2010 We would like to add more songs and compare across every decade, across different genres, and across different regions of the world
 
 ## Try it out
+[Slides] (https://docs.google.com/presentation/d/1Tv-FNCED7pvlYkYeBiCBBuzzRLu7kwscxptbCv-zDwQ/edit#slide=id.g28649760147_3_638)
+[Tableau Visuals 1] (https://public.tableau.com/app/profile/manisha.reddy.kasam/viz/Visuals_Final_16961362812790/Dashboard_Song_all)
+[Tableau Visuals 2] (https://public.tableau.com/app/profile/manisha.reddy.kasam/viz/Visuals_Final_16961362812790/Dashboard_Artist_All)
+[Dev Post] (https://devpost.com/software/spotify-track-analysis-audio-features-from-2000-to-2010#updates)
+
 
