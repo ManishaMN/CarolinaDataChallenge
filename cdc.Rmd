@@ -1,0 +1,141 @@
+---
+title: "Spotify API"
+author: "Manisha Kasam, Teresa Meng, Kush Patel, Anusha Tummallapalli"
+date: "2023-09-30"
+output: html_document
+---
+
+```{r}
+# Load libraries
+library(tidyverse)
+library(corrplot)
+library(car)
+```
+
+```{r}
+# Read in data
+spotify <- read.csv("spotify_top10_pop.csv")
+```
+
+```{r}
+# Select only numeric variables for correlation matrix
+spotify_selected <- spotify %>% select(-type, -id, -uri, -track_href, -analysis_url, -name, -artist, -month)
+```
+
+```{r}
+# Create correlation matrix
+corr_matrix <- cor(spotify_selected)
+
+corr_matrix
+```
+
+```{r}
+# Correlation plot
+corrplot(corr_matrix, method="circle")
+```
+
+```{r}
+# Initial position model
+position_lm <- lm(position ~ . -revenue -popularity, data = spotify_selected)
+summary(position_lm)
+```
+
+```{r}
+# Initial revenue model
+revenue_lm <- lm(revenue ~ . -position -popularity, data = spotify_selected)
+summary(revenue_lm)
+```
+
+```{r}
+# Forward selection model for revenue
+full.model <- lm(revenue ~ . - position - popularity, data = spotify_selected)
+empty.model <- lm(revenue ~ 1, data = spotify_selected)
+
+for.model <- step(empty.model, scope = list(lower = empty.model, upper = full.model), direction = "forward", k = 2)
+```
+
+```{r}
+summary(for.model)
+```
+
+```{r}
+# Try backwards selection
+back.model <- step(full.model, scope = list(lower = empty.model, upper = full.model), direction = "backward", k = 2) 
+```
+Same variables
+
+```{r}
+# Multicollinearity check
+vif(for.model)
+```
+
+```{r}
+# Residuals check
+plot(for.model)
+```
+
+
+```{r}
+# Forward selection for position model
+full.model.pos <- lm(position ~ . - revenue - popularity, data = spotify_selected)
+empty.model.pos <- lm(position ~ 1, data = spotify_selected)
+
+for.model.pos <- step(empty.model.pos, scope = list(lower = empty.model.pos, upper = full.model.pos), direction = "forward", k = 2)
+```
+
+```{r}
+summary(for.model.pos)
+```
+
+```{r}
+# Check multicollinearity
+vif(for.model.pos)
+```
+
+
+```{r}
+# Check residuals
+plot(for.model.pos)
+```
+
+```{r}
+# Explore scatterplots
+ggplot(spotify_selected, aes(x = danceability, y = revenue)) + geom_point() + theme_classic()
+```
+
+```{r}
+ggplot(spotify_selected, aes(x = valence, y = revenue)) + geom_point() + theme_classic()
+```
+
+```{r}
+# Extract year
+spotify <- spotify %>% rowwise() %>% mutate(year = str_split(month, " ")[[1]][2])
+
+# Summarize statistics by year
+spotify_summary <- spotify %>% group_by(year) %>% summarise(avg_danceability=mean(danceability), avg_valence=mean(valence))
+```
+
+```{r}
+# Graph danceability
+ggplot(spotify_summary, aes(x = year, y = avg_danceability)) + geom_bar(stat = "identity", fill = "#1ed760") + theme_classic()
+```
+
+```{r}
+# Graph valence
+ggplot(spotify_summary, aes(x = year, y = avg_valence)) + geom_bar(stat = "identity", fill = "#1ed760") + theme_classic()
+```
+
+```{r}
+# Try popularity model
+popularity_lm <- lm(popularity ~ . -revenue -position, data = spotify_selected)
+summary(popularity_lm)
+```
+
+```{r}
+cor(spotify$popularity, spotify$instrumentalness)
+```
+
+```{r}
+ggplot(spotify_selected, aes(x = instrumentalness, y = popularity)) + geom_point() + theme_classic()
+```
+
