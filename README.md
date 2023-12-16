@@ -30,5 +30,9 @@ Audio Features from 2000 to 2010 We would like to add more songs and compare acr
 
 <a href="https://devpost.com/software/spotify-track-analysis-audio-features-from-2000-to-2010#updates">Dev Post</a>
 
+## My Notes
+<a href="https://docs.google.com/document/d/1DA7SO8L7DW7MP3W8gP362T5MAjCjbP1F1ZPVsoQECMo/edit?usp=sharing">My Notes</a>
+
+
 
 
