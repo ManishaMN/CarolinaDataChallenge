@@ -1,7 +1,5 @@
 ---
 title: "Spotify API"
-author: "Manisha Kasam, Teresa Meng, Kush Patel, Anusha Tummallapalli"
-date: "2023-09-30"
 output: html_document
 ---
 
